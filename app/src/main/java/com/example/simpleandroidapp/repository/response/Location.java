@@ -1,4 +1,4 @@
-package com.example.simpleandroidapp.repository.responsemodels;
+package com.example.simpleandroidapp.repository.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -16,7 +16,7 @@ public class Location {
     private String state;
     @SerializedName("postcode")
     @Expose
-    private Integer postcode;
+    private String postcode;
     @SerializedName("coordinates")
     @Expose
     private Coordinates coordinates;
@@ -48,11 +48,11 @@ public class Location {
         this.state = state;
     }
 
-    public Integer getPostcode() {
+    public String getPostcode() {
         return postcode;
     }
 
-    public void setPostcode(Integer postcode) {
+    public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
 

@@ -1,4 +1,4 @@
-package com.example.simpleandroidapp.repository.responsemodels;
+package com.example.simpleandroidapp.repository.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
