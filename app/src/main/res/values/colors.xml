@@ -6,5 +6,5 @@
 
     <color name="buttonColor">#7A7A7A</color>
     <color name="dividerColor">#4B4B4B</color>
-
+    <color name="editTextRoundedCornersBorderColor">#6B6B6B</color>
 </resources>

@@ -16,7 +16,7 @@ public class Client {
     private static Client ourInstance = new Client();
     private static Api api;
 
-    private static final String BASE_URL = "http://randomuser.me/api/";
+    private static final String BASE_URL = "http://randomuser.me/";
 
     public static Client getInstance() {
         return ourInstance;

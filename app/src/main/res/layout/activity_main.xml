@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="13dp"
-        android:background="@drawable/edittext_rounded_corners_border"
+        android:background="@drawable/edit_text_rounded_corners_border"
         android:ems="10"
-        android:hint="Enter seed"
+        android:hint="@string/enter_seed_hint"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,8 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
         android:layout_marginEnd="20dp"
-
-        android:text="Apply"
+        android:text="@string/apply"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
-        android:text="Current seed:"
+        android:text="@string/current_seed"
         android:textColor="@android:color/black"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +57,6 @@
         android:id="@+id/current_seed_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:textColor="@android:color/black"
         android:textSize="25sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/current_seed_txt_tv"
@@ -82,12 +80,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="13dp"
-        android:background="@drawable/edittext_rounded_corners_border"
+        android:background="@drawable/edit_text_rounded_corners_border"
         android:ems="10"
-        android:hint="Search.."
+        android:hint="@string/search_hint"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/middle_divider" />
+        app:layout_constraintTop_toTopOf="@+id/middle_divider"
+         />
 
     <Button
         android:id="@+id/cleat_btn"
@@ -95,7 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
         android:layout_marginEnd="20dp"
-        android:text="Clear"
+        android:text="@string/clear"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/middle_divider" />
 

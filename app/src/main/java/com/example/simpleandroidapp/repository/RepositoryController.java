@@ -12,8 +12,8 @@ public class RepositoryController {
     private Api api = Client.getInstance().getApi();
 
 
-    public void getUsers(Observer<UserModel> arrayListObserver) {
-        api.getUserList()
+    public void getUsersBySeed(Observer<UserModel> arrayListObserver, int numberOfResults, String seed) {
+        api.getUserList(numberOfResults, seed)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(arrayListObserver);
     }

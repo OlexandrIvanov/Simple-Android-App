@@ -2,9 +2,10 @@ package com.example.simpleandroidapp.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,25 +13,18 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.example.simpleandroidapp.R;
+import com.example.simpleandroidapp.Tools;
 import com.example.simpleandroidapp.repository.response.Result;
+import com.example.simpleandroidapp.ui.UserDetailsScreen;
+import com.example.simpleandroidapp.ui.intentModel.IntentModel;
 import com.squareup.picasso.Picasso;
 
-import java.text.Format;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
-
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.Holder> {
     private List<Result> data;
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     private Context context;
     public DataAdapter(Context context) {
@@ -54,29 +48,10 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.Holder> {
             holder.secondName.setText(data.get(position).getName().getLast());
             holder.age.setText(data.get(position).getDob().getAge().toString());
             Picasso.with(context).load(data.get(position).getPicture().getMedium()).into(holder.userImage);
-            //holder.dataField.setText(data.get(position).getDob().getDate());
+            holder.dataField.setText(Tools.parceDateToRightFormat(data.get(position).getDob().getDate()));
 
-//            String s = data.get(position).getDob().getDate();
-//            String stop =   s.substring(0, s.length() - 1);
-
-            Calendar cal;
-            Date date1 = null;
-            try {
-                date1 = formatter.parse(data.get(position).getDob().getDate());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }finally {
-                cal = Calendar.getInstance();
-                cal.setTime(date1);
-                String asd = cal.get(Calendar.MONTH)+ "-" +cal.get(Calendar.DAY_OF_MONTH) +"-" +cal.get(Calendar.YEAR);
-                holder.dataField.setText(asd);
-            }
-
-
-
-
+            holder.consLayout.setOnClickListener(v -> context.startActivity(getIntentForUserDetailsScreen(position)));
         }
-
     }
 
     @Override
@@ -87,20 +62,46 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.Holder> {
     @Override
     public void onViewAttachedToWindow(Holder holder) {
         super.onViewAttachedToWindow(holder);
-
     }
 
     @Override
     public void onViewDetachedFromWindow(Holder holder) {
         super.onViewDetachedFromWindow(holder);
-
     }
 
     public void updateList(List<Result> newData) {
-        data.addAll(newData);
-        notifyDataSetChanged();
+        if (newData!=null){
+            data.addAll(newData);
+            notifyDataSetChanged();
+        }
     }
 
+    private Intent getIntentForUserDetailsScreen(int position){
+        IntentModel intentModel = new IntentModel(data.get(position).getPicture().getLarge(),
+                data.get(position).getName().getFirst(),
+                data.get(position).getName().getLast(),
+                data.get(position).getDob().getDate(),
+                data.get(position).getGender(),
+                data.get(position).getLocation().getCity(),
+                data.get(position).getEmail());
+
+        Intent intent = new Intent(context, UserDetailsScreen.class);
+        intent.putExtra(IntentModel.class.getCanonicalName(), intentModel);
+        return intent;
+    }
+
+    public void updateListBySearch(List<Result> newData) {
+        if (newData!=null){
+            data.clear();
+            data.addAll(newData);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void clearList(){
+        data.clear();
+        notifyDataSetChanged();
+    }
 
     class Holder extends RecyclerView.ViewHolder {
         ImageView userImage;
@@ -108,6 +109,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.Holder> {
         TextView secondName;
         TextView dataField;
         TextView age;
+        ConstraintLayout consLayout;
 
         Holder(View v) {
             super(v);
@@ -116,7 +118,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.Holder> {
             secondName = v.findViewById(R.id.second_name_tv);
             dataField = v.findViewById(R.id.data_field_tv);
             age = v.findViewById(R.id.user_age_tv);
-
+            consLayout = v.findViewById(R.id.cons_layout);
         }
     }
 }
