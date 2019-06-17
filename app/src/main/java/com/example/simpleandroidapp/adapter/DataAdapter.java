@@ -1,6 +1,8 @@
 package com.example.simpleandroidapp.adapter;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -24,33 +26,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.Holder> {
+
     private List<Result> data;
 
-    private Context context;
-    public DataAdapter(Context context) {
+    public List<Result> getData() {
+        return data;
+    }
+
+
+    private MutableLiveData<Integer> listPositionLiveData = new MutableLiveData<>();
+
+    public LiveData<Integer> getListPositionLiveData() {
+        return listPositionLiveData;
+    }
+
+    public DataAdapter() {
         this.data = new ArrayList<>();
-        this.context = context;
     }
 
     @NonNull
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.seed_list_item,
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_list_item,
                 new FrameLayout(parent.getContext()), false);
         return new Holder(itemView);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(Holder holder, int position) {
+    public void onBindViewHolder(@NonNull Holder holder, int position) {
         if (data!=null){
+            listPositionLiveData.setValue(position);
+
             holder.firstName.setText(data.get(position).getName().getFirst());
             holder.secondName.setText(data.get(position).getName().getLast());
             holder.age.setText(data.get(position).getDob().getAge().toString());
-            Picasso.with(context).load(data.get(position).getPicture().getMedium()).into(holder.userImage);
+            Picasso.with(holder.userImage.getContext()).load(data.get(position).getPicture().getMedium()).into(holder.userImage);
             holder.dataField.setText(Tools.parceDateToRightFormat(data.get(position).getDob().getDate()));
 
-            holder.consLayout.setOnClickListener(v -> context.startActivity(getIntentForUserDetailsScreen(position)));
+            holder.consLayout.setOnClickListener(v -> holder.consLayout.getContext().startActivity(getIntentForUserDetailsScreen(position, holder.consLayout.getContext())));
         }
     }
 
@@ -76,7 +90,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.Holder> {
         }
     }
 
-    private Intent getIntentForUserDetailsScreen(int position){
+    private Intent getIntentForUserDetailsScreen(int position, Context context){
         IntentModel intentModel = new IntentModel(data.get(position).getPicture().getLarge(),
                 data.get(position).getName().getFirst(),
                 data.get(position).getName().getLast(),
